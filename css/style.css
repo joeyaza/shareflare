@@ -56,6 +56,30 @@ ul li p span.large {
   font-size: 26px;
 }
 
+ul li p span.higher:after {
+  content: "";
+  width: 0;
+  height: 0;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-bottom: 15px solid #25CED1;
+  position: relative;
+  top: -23px;
+  left: 13px;
+}
+
+ul li p span.lower {
+  content: "";
+  width: 0;
+  height: 0;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-top: 15px solid #25CED1;
+  position: relative;
+  top: -23px;
+  left: 13px;
+}
+
 ul li p span.bold {
   font-weight: 600;
 }

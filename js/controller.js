@@ -39,6 +39,13 @@ function MainController($http, $state, $stateParams){
       .then(function(response){
         self.graphData = response.data;
         convertData(self.graphData);
+        var today = self.graphData[0];
+        var yesterday = self.graphData[1];
+        if (today < yesterday) {
+          $(".arrow").addClass("lower")
+        } else {
+          $(".arrow").addClass("higher")
+        }
         truncate();
       });
   }
