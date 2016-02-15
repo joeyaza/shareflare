@@ -45,13 +45,15 @@ function MainController($http){
     var history = {
       "sic": "6c8227be-6855-11e4-98bf-294717b2347c",
       "after": 0,
-      "select": ["price", "market_value_usd"]
+      "select": ["dividends"]
     }
 
     $http
     .put('https://dozlacmd51.execute-api.us-east-1.amazonaws.com/v1/historical', history)
     .then(function(response){
       console.log(response);
+      self.history = response.data[0];
+      self.dividends = self.history.dividends;
         // self.history = response.data[0];
         // self.price = self.stock.price;
 
