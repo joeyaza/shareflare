@@ -30,12 +30,14 @@
           <div class="wrap">
             <h3>Stock Price</h3>
             <p><span class="large">${{ main.price }}</span></p>
+            </br>
+            <h3>Ticker</h3>
+            <p><span class="large">{{ main.ticker }}</span></p>
           </div>
         </li>
         <li class="col-sm-6 col-xs-12">
           <div class="wrap">
-            <h3>Ticker</h3>
-            <p><span class="large">{{ main.ticker }}</span></p>
+
           </div>
         </li>
         <li class="col-sm-6 col-xs-12">
@@ -44,10 +46,10 @@
             <p>Market Value: <span class="bold">${{ main.marketValue }}</span></p>
             <p>52 Week High/Low: <span class="high">${{ main.marketHigh }}</span> / <span class="low">${{ main.marketLow }}</span></p>
             <p>Classification: <span class="bold">{{ main.classification }}</span></p>
+            <p>Dividends Paid to Shareholders: <span class="bold">{{ main.dividends}}</span></p>
+            <p>Return on Equity: <span class="bold">{{ main.roe}}</span></p>
           </div>
         </li>
-
-        {{main.dividends}}
       </ul>
     </div>
   </div> 
