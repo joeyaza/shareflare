@@ -2,82 +2,87 @@ angular
   .module('stockflare')
   .controller('MainController', MainController);
 
-MainController.$inject = ['$http'];
-function MainController($http){
+MainController.$inject = ['$http', '$state', '$stateParams'];
+function MainController($http, $state, $stateParams){
   var self = this;
-  this.stock = [];
-  this.history = [];
-  
-  // this.ticker = "";
-  // this.price = "";
-  // this.name = "";
-  // this.description = "";
-  // this.marketHigh = "";
-  // this.marketLow = "";
-  // this.marketValue = "";
-  // this.classification = "";
+  self.all = [];
+  self.sic = "";
+  self.ticker = $stateParams.ticker;
 
-  function getSearch(){
-
+  function getStock(){
     var stock = {
-      "term": "apple",
+      "conditions": {
+          "ticker": self.ticker
+      },
       "select": "_all"
     }
 
     $http
-      .put('https://dozlacmd51.execute-api.us-east-1.amazonaws.com/v1/search', stock)
+      .put('https://dozlacmd51.execute-api.us-east-1.amazonaws.com/v1/search/filter', stock)
       .then(function(response){
-        self.stock = response.data[0];
-        self.price = self.stock.price;
-        self.name = self.stock.long_name;
-        self.ticker = self.stock.ticker;
-        self.description = self.stock.description;
-        self.marketHigh = self.stock.fifty_two_week_high;
-        self.marketLow = self.stock.fifty_two_week_low;
-        self.classification = self.stock.classification;
-        self.marketValue = self.stock.market_value;
+        self.all = response.data[0];
+        self.sic = self.all.sic;
+        getHistorical();
       });
-    
   }
 
-  function getInstrument() {
+  function getHistorical(){
 
-    var instrument = {
-    "sic": "6c8227be-6855-11e4-98bf-294717b2347c"
-    }
-
-    $http
-      .put('https://dozlacmd51.execute-api.us-east-1.amazonaws.com/v1/instruments', instrument)
-      .then(function(response){
-        console.log(response);
-        self.instrument = response.data[0];
-    })
-  }
-
-  function getHistory() {
-
-    var history = {
-      "sic": "6c8227be-6855-11e4-98bf-294717b2347c",
+    var stock = {
+      "sic": self.sic,
       "after": 0,
-      "select": ["dividends", "return_on_equity"]
+      "select": ["price", "market_value_usd"]
     }
 
     $http
-    .put('https://dozlacmd51.execute-api.us-east-1.amazonaws.com/v1/historical', history)
-    .then(function(response){
-      self.history = response.data[0];
-      self.dividends = self.history.dividends;
-      self.roe = self.history.return_on_equity
-        // self.history = response.data[0];
-        // self.price = self.stock.price;
-
-
-      })
-
+      .put('https://dozlacmd51.execute-api.us-east-1.amazonaws.com/v1/historical', stock)
+      .then(function(response){
+        self.graphData = response.data;
+        convertData(self.graphData);
+        truncate();
+      });
   }
 
-  getSearch();
-  getHistory();
-  getInstrument();
+  function convertData(data){
+    var prices = [];
+    var labels = [];
+    for (i = 0; i < 90; i++) { 
+      prices.push(data[i].price);
+      var date = moment.unix(data[i].updated_at).format("MMM Do YYYY");
+      labels.push(date);
+    }
+    buildGraph(prices, labels);
+  }
 
+  function buildGraph(prices, labels){
+    var ctx = $('#price-chart');
+    var myChart = new Chart(ctx, {
+      type: 'line',
+      fontColor: '#25CED1',
+      data: {
+        labels: labels.reverse(),
+        datasets: [{
+          label: 'Price in $',
+          fill: false,
+          borderJoinStyle: 'miter',
+          borderColor: "#25CED1",
+          data: prices.reverse()
+        }]
+      },
+      options:{
+      }
+    });
+  }
+
+  function truncate(){
+    $('.truncate').trunk8({
+      lines: 16
+    });
+  }
+
+  getStock();
+
+  $(window).resize(function(){
+    truncate();
+  });
 }
