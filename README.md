@@ -6,6 +6,6 @@ Then add ticker after this to navigate to particular stock. Eg. http://localhost
 
 The site was built using AngularJS and the following libraries:
 
-Chart.js
-Moment.js
-Trunk8
+* Chart.js
+* Moment.js
+* Trunk8
