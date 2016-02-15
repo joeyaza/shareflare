@@ -62,22 +62,30 @@ ul li p span.higher:after {
   height: 0;
   border-left: 15px solid transparent;
   border-right: 15px solid transparent;
-  border-bottom: 15px solid #25CED1;
+  border-bottom: 15px solid #4ED2AB;
   position: relative;
   top: -23px;
   left: 13px;
 }
 
-ul li p span.lower {
+ul li p span.higher.large {
+  color: #4ED2AB;
+}
+
+ul li p span.lower:after {
   content: "";
   width: 0;
   height: 0;
   border-left: 15px solid transparent;
   border-right: 15px solid transparent;
-  border-top: 15px solid #25CED1;
+  border-top: 15px solid #E45142;
   position: relative;
-  top: -23px;
+  top: 22px;
   left: 13px;
+}
+
+ul li p span.lower.large {
+  color: #E45142;
 }
 
 ul li p span.bold {

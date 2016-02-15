@@ -39,8 +39,9 @@ function MainController($http, $state, $stateParams){
       .then(function(response){
         self.graphData = response.data;
         convertData(self.graphData);
-        var today = self.graphData[0];
-        var yesterday = self.graphData[1];
+        var today = self.graphData[0].price;
+        var yesterday = self.graphData[1].price;
+        console.log("TODAY", today, "YESTERDAY", yesterday)
         if (today < yesterday) {
           $(".arrow").addClass("lower")
         } else {
