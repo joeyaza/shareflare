@@ -1,5 +1,5 @@
 angular
-  .module("stockflare", ["ui.router"])
+  .module("shareflare", ["ui.router"])
   .config(MainRouter);
 
 function MainRouter($stateProvider, $urlRouterProvider){

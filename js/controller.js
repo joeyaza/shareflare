@@ -1,5 +1,5 @@
 angular
-  .module('stockflare')
+  .module('shareflare')
   .controller('MainController', MainController);
 
 MainController.$inject = ['$http', '$state', '$stateParams'];
